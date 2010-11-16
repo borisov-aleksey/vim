@@ -1,0 +1,5 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhist_cnt =3
+let g:netrw_dirhist_1='/home/aleksey/work/marva2/app/views/layouts'
+let g:netrw_dirhist_2='/home/aleksey/a.borisov/projects/marva-ru'
+let g:netrw_dirhist_3='/home/aleksey/a.borisov/projects/marva-agent'

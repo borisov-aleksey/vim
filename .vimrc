@@ -1,4 +1,5 @@
-colorscheme pyte
+"colorscheme pyte
+colorscheme slate
 set encoding=utf8
 syntax on
 set guioptions-=m
