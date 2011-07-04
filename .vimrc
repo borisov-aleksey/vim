@@ -44,7 +44,12 @@ set listchars=tab:»·
 set listchars+=trail:·
 set endofline
 
-filetype plugin indent on " Enable filetype-specific indenting and plugins
+filetype off
+call pathogen#runtime_append_all_bundles() 
+
+filetype plugin indent on
+
+" Enable filetype-specific indenting and plugins
 
 " Load matchit (% to bounce from do to end, etc.)
 runtime! macros/matchit.vim
@@ -60,6 +65,9 @@ augroup END
 
 "set encoding=utf-8
 "set termencoding=utf-8
+
+
+map <F3> :NERDTreeToggle<CR>
 
 set fileencodings=utf-8,cp1251,cp866,koi8-r
 
@@ -152,3 +160,6 @@ endfunction
 set statusline=%<%f%h%m%r%=format=%{&fileformat}\ file=%{&fileencoding}\ enc=%{&encoding}\ %b\ 0x%B\ %l,%c%V\ %P
 set laststatus=2
 
+
+
+set guifont=Monospace\ 9
