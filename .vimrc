@@ -1,165 +1,140 @@
-"colorscheme pyte
-colorscheme slate
-set encoding=utf8
-syntax on
-set guioptions-=m
-set guioptions-=T
-
-set ts=2
-set sts=2
-set shiftwidth=2
-set expandtab
-set autoindent
-set number
-set nowrap
+" FIX: PluginUpdate => git pull: git-sh-setup: No such file or directory in MacVim (OK in non-GUI version of Vim)
+if has("gui_macvim")
+    set shell=/bin/bash\ -l
+endif
 
 set nobackup
+set nowrap
+set tabstop=4
+set shiftwidth=4
+set expandtab
 
-set wildmode=list:full
-set incsearch
+set nocompatible              " be iMproved, required
+filetype off                  " required
+
+" set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+" alternatively, pass a path where Vundle should install plugins
+"call vundle#begin('~/some/path/here')
+
+" let Vundle manage Vundle, required
+Plugin 'gmarik/Vundle.vim'
+
+" The following are examples of different formats supported.
+" Keep Plugin commands between vundle#begin/end.
+" plugin on GitHub repo
+""Plugin 'tpope/vim-fugitive'
+" plugin from http://vim-scripts.org/vim/scripts.html
+""Plugin 'L9'
+" Git plugin not hosted on GitHub
+""Plugin 'git://git.wincent.com/command-t.git'
+" git repos on your local machine (i.e. when working on your own plugin)
+""Plugin 'file:///home/gmarik/path/to/plugin'
+" The sparkup vim script is in a subdirectory of this repo called vim.
+" Pass the path to set the runtimepath properly.
+""Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
+" Avoid a name conflict with L9
+""Plugin 'user/L9', {'name': 'newL9'}
+
+" My plugins:
+Plugin 'flazz/vim-colorschemes'
+Plugin 'bling/vim-airline'
+" Install fonts from https://github.com/powerline/fonts
+Plugin 'scrooloose/nerdcommenter'
+Plugin 'scrooloose/nerdtree'
+Plugin 'kien/ctrlp.vim'
+Plugin 'tpope/vim-fugitive'
+Plugin 'ervandew/supertab'
+Plugin 'majutsushi/tagbar'
+" On mac install campatible ctags
+"" not working Plugin 'lukaszkorecki/CoffeeTags'
+"Plugin 'vim-php/tagbar-phpctags.vim'
+"let g:tagbar_phpctags_bin='/Users/borisov/tmp/phpctags/phpctags'
+Plugin 'nathanaelkane/vim-indent-guides'
+IndentGuidesEnable
+let g:indent_guides_start_level = 2
+let g:indent_guides_guide_size = 1
+Plugin 'Shougo/vimproc.vim'
+Plugin 'Shougo/vimshell.vim'
+Plugin 'Align'
+
+Plugin 'kchmck/vim-coffee-script'
+Plugin 'pangloss/vim-javascript'
+Plugin 'tpope/vim-markdown'
+
+"" Spaces settings for coffee
+autocmd BufNewFile,BufReadPost *.coffee setl shiftwidth=4 expandtab
+autocmd BufNewFile,BufReadPost *.md set filetype=markdown
+
+"let coffee_lint_options = '-f lint.json'
+
+" All of your Plugins must be added before the following line
+call vundle#end()            " required
+filetype plugin indent on    " required
+" To ignore plugin indent changes, instead use:
+"filetype plugin on
+"
+" Brief help
+" :PluginList       - lists configured plugins
+" :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
+" :PluginSearch foo - searches for foo; append `!` to refresh local cache
+" :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
+"
+" see :h vundle for more details or wiki for FAQ
+" Put your non-Plugin stuff after this line
+
+"" ctags
+"" coffeesript
+let g:tagbar_type_coffee = {
+    \ 'ctagstype' : 'coffee',
+    \ 'kinds'     : [
+        \ 'c:classes',
+        \ 'm:methods',
+        \ 'f:functions',
+        \ 'v:variables',
+        \ 'f:fields',
+    \ ]
+\ }
+"" ctags end
+
+nmap <F8> :TagbarToggle<CR>
+nmap <F3> :NERDTreeToggle<CR>
+" Tab navigation
+map ;] :tabnext<cr>
+map ;[ :tabprevious<cr>
 
 vnoremap < <gv
 vnoremap > >gv
 
+" Match and search
+set hlsearch    " highlight search
+set ignorecase  " Do case in sensitive matching with
+set smartcase   " be sensitive when there's a capital letter
+set incsearch   "" "}}}
+nmap <F3> :set hlsearch!<CR>
 
-set t_Co=256
 
-set showmatch
-set nocompatible
-set backspace=2        " Поведение клавиш
-set termencoding=utf8  " Кодировка терминала
-set fileencoding=utf8
-
-set laststatus=2
-set splitbelow
-
-set backupdir=~/.vim/backup
-set directory=~/.vim/backup
-
-autocmd BufNewFile,BufRead *.php,*.xsl set ts=4 sts=4 shiftwidth=2
-
-"show tabs, EOL etc.
+" Visual "{{{
+set nonumber  " Line numbers off
+set showmatch  " Show matching brackets.
+set matchtime=5  " Bracket blinking.
+set novisualbell  " No blinking
+set noerrorbells  " No noise.
+set backspace=indent,eol,start
 set list
-set listchars=tab:»·
-set listchars+=trail:·
-set endofline
+set listchars=tab:\|\ 
 
-filetype off
-call pathogen#runtime_append_all_bundles() 
-
-filetype plugin indent on
-
-" Enable filetype-specific indenting and plugins
-
-" Load matchit (% to bounce from do to end, etc.)
-runtime! macros/matchit.vim
-
-augroup myfiletypes
-  " Clear old autocmds in group
-  autocmd!
-  " autoindent with two spaces, always expand tabs
-  autocmd FileType ruby,eruby,yaml set ai sw=2 sts=2 et
-augroup END
-
-
-
-"set encoding=utf-8
-"set termencoding=utf-8
-
-
-map <F3> :NERDTreeToggle<CR>
-
-set fileencodings=utf-8,cp1251,cp866,koi8-r
-
-" <F7> File fileformat (dos - <CR> <NL>, unix - <NL>, mac - <CR>)
-map <F7>	:execute RotateFileFormat()<CR>
-vmap <F7>	<C-C><F7>
-imap <F7>	<C-O><F7>
-let b:fformatindex=0
-function! RotateFileFormat()
-  let y = -1
-  while y == -1
-    let encstring = "#unix#dos#mac#"
-    let x = match(encstring,"#",b:fformatindex)
-    let y = match(encstring,"#",x+1)
-    let b:fformatindex = x+1
-    if y == -1
-      let b:fformatindex = 0
-    else
-      let str = strpart(encstring,x+1,y-x-1)
-      return ":set fileformat=".str
-    endif
-  endwhile
-endfunction
-
-" <F8> File encoding for open
-" ucs-2le - MS Windows unicode encoding
-map <F8>	:execute RotateEnc()<CR>
-vmap <F8>	<C-C><F8>
-imap <F8>	<C-O><F8>
-let b:encindex=0
-function! RotateEnc()
-  let y = -1
-  while y == -1
-    let encstring = "#koi8-r#cp1251#8bit-cp866#utf-8#ucs-2le#"
-    let x = match(encstring,"#",b:encindex)
-    let y = match(encstring,"#",x+1)
-    let b:encindex = x+1
-    if y == -1
-      let b:encindex = 0
-    else
-      let str = strpart(encstring,x+1,y-x-1)
-      return ":e ++enc=".str
-    endif
-  endwhile
-endfunction
-
-" <Shift+F8> Force file encoding for open (encoding = fileencoding)
-map <S-F8>	:execute ForceRotateEnc()<CR>
-vmap <S-F8>	<C-C><S-F8>
-imap <S-F8>	<C-O><S-F8>
-let b:encindex=0
-function! ForceRotateEnc()
-  let y = -1
-  while y == -1
-    let encstring = "#koi8-r#cp1251#8bit-cp866#utf-8#ucs-2le#"
-    let x = match(encstring,"#",b:encindex)
-    let y = match(encstring,"#",x+1)
-    let b:encindex = x+1
-    if y == -1
-      let b:encindex = 0
-    else
-      let str = strpart(encstring,x+1,y-x-1)
-      :execute "set encoding=".str
-      return ":e ++enc=".str
-    endif
-  endwhile
-endfunction
-
-" <Ctrl+F8> File encoding for save (convert)
-map <C-F8>	:execute RotateFEnc()<CR>
-vmap <C-F8>	<C-C><C-F8>
-imap <C-F8>	<C-O><C-F8>
-let b:fencindex=0
-function! RotateFEnc()
-  let y = -1
-  while y == -1
-    let encstring = "#koi8-r#cp1251#8bit-cp866#utf-8#ucs-2le#"
-    let x = match(encstring,"#",b:fencindex)
-    let y = match(encstring,"#",x+1)
-    let b:fencindex = x+1
-    if y == -1
-      let b:fencindex = 0
-    else
-      let str = strpart(encstring,x+1,y-x-1)
-      return ":set fenc=".str
-    endif
-  endwhile
-endfunction
-
-set statusline=%<%f%h%m%r%=format=%{&fileformat}\ file=%{&fileencoding}\ enc=%{&encoding}\ %b\ 0x%B\ %l,%c%V\ %P
+" Status line
+set statusline=%<%f%h%m%r%=%{fugitive#statusline()}\ format=%{&fileformat}\ file=%{&fileencoding}\ enc=%{&encoding}\ %b\ 0x%B\ %l,%c%V\ %P
 set laststatus=2
 
+colorscheme hybrid
+let g:airline_powerline_fonts = 1
+let g:airline#extensions#tabline#enabled = 1
+set guifont=Droid\ Sans\ Mono\ for\ Powerline:h12
+" }}}
 
-
-set guifont=Monospace\ 9
+"" Comands
+" Sudo write
+comm! W exec 'w !sudo tee % > /dev/null' | e!
