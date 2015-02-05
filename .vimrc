@@ -4,6 +4,9 @@ if has("gui_macvim")
 endif
 
 set nobackup
+set backupdir=~/.vim/backup
+set directory=~/.vim/backup
+
 set nowrap
 set tabstop=4
 set shiftwidth=4
@@ -103,6 +106,9 @@ nmap <F3> :NERDTreeToggle<CR>
 " Tab navigation
 map ;] :tabnext<cr>
 map ;[ :tabprevious<cr>
+nnoremap ;= :bnext<CR>
+nnoremap ;- :bprevious<CR>
+
 
 vnoremap < <gv
 vnoremap > >gv
